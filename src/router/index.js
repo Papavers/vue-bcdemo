@@ -3,6 +3,7 @@ import UserLogin from '../components/UserLogin';
 import UserRegister from '../components/UserRegister.vue';
 import MedicalRecordsHome from '../components/MedicalRecordsHome';
 import PatientHomePage from '@/components/PatientHomePage';
+import HealthAdministrationApproval from '@/components/HealthAdministrationApproval';
 const routes = [
     {
         path: '/',
@@ -24,6 +25,12 @@ const routes = [
         name: 'PatientHomePage',
         component: PatientHomePage,
     },
+    {
+        path: '/Health-Administration-Approval',
+        name: 'HealthAdministrationApproval',
+        component: HealthAdministrationApproval,
+    },
+
 ];
 
 const router = createRouter({
