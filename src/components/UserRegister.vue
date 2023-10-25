@@ -23,6 +23,11 @@
         <input id="email" type="email" v-model="email" required />
       </div>
       <div class="form-group">
+        <label for="avatarURL">Avatar URL:</label>
+        <input id="avatarURL" type="text" v-model="avatarURL" required />
+      </div>
+
+      <div class="form-group">
         <label for="role">Role:</label>
         <select id="role" v-model="role" @change="onRoleChange">
           <option value="0">Patient</option>
@@ -73,6 +78,8 @@ export default {
       errorMessage: null,
       successMessage: null,
       nftMintingStatus: null,
+      avatarURL: "",
+
 
     };
   },
@@ -136,6 +143,12 @@ export default {
                     "internalType": "string",
                     "name": "licenseNumber",
                     "type": "string"
+                  },
+                  {
+                    "indexed": false,
+                    "internalType": "string",
+                    "name": "avatarURL",
+                    "type": "string"
                   }
                 ],
                 "name": "UserRegistered",
@@ -180,6 +193,11 @@ export default {
                     "internalType": "enum Authentication.Role",
                     "name": "",
                     "type": "uint8"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
                   },
                   {
                     "internalType": "string",
@@ -263,6 +281,11 @@ export default {
                     "internalType": "string",
                     "name": "licenseNumber",
                     "type": "string"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "avatarURL",
+                    "type": "string"
                   }
                 ],
                 "name": "register",
@@ -291,7 +314,7 @@ export default {
               }
             ]
         ;
-        const contractAddress ="0x03B0bc27EDF6Cb86f762eA2186a70E199Deb0704"; // Replace with your contract address
+        const contractAddress ="0xdc88330cF86c9a77539a0fB4067c7726866DDEE2"; // Replace with your contract address
         this.contract = new this.web3.eth.Contract(contractABI, contractAddress);
       } catch (error) {
         console.error("Error connecting to Ethereum:", error);
@@ -334,7 +357,8 @@ export default {
             this.email,
             parseInt(this.role),
             this.department,
-            this.licenseNumber
+            this.licenseNumber,
+            this.avatarURL
         ).encodeABI();
 
         const transactionParameters = {

@@ -7,6 +7,9 @@
     <p v-if="errorMessage">{{ errorMessage }}</p>
     <p v-if="successMessage">{{ successMessage }}</p>
     <div v-if="loading">Logging in...</div>
+    <div>
+
+    </div>
   </div>
 </template>
 
@@ -30,7 +33,7 @@ export default {
       await window.ethereum.request({ method: "eth_requestAccounts" });
 
       const authContractABI =
-        // ... (Replace with the actual ABI of your Authentication contract)
+          // ... (Replace with the actual ABI of your Authentication contract)
           [
             {
               "anonymous": false,
@@ -82,6 +85,12 @@ export default {
                   "internalType": "string",
                   "name": "licenseNumber",
                   "type": "string"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "string",
+                  "name": "avatarURL",
+                  "type": "string"
                 }
               ],
               "name": "UserRegistered",
@@ -126,6 +135,11 @@ export default {
                   "internalType": "enum Authentication.Role",
                   "name": "",
                   "type": "uint8"
+                },
+                {
+                  "internalType": "string",
+                  "name": "",
+                  "type": "string"
                 },
                 {
                   "internalType": "string",
@@ -209,6 +223,11 @@ export default {
                   "internalType": "string",
                   "name": "licenseNumber",
                   "type": "string"
+                },
+                {
+                  "internalType": "string",
+                  "name": "avatarURL",
+                  "type": "string"
                 }
               ],
               "name": "register",
@@ -235,13 +254,12 @@ export default {
               "stateMutability": "view",
               "type": "function"
             }
-          ]
-      ;
-      const authContractAddress = "0x03B0bc27EDF6Cb86f762eA2186a70E199Deb0704";
+          ];
+      const authContractAddress = "0xdc88330cF86c9a77539a0fB4067c7726866DDEE2";
       this.authContract = new this.web3.eth.Contract(authContractABI, authContractAddress);
 
       const identityNFTABI =
-        // ... (Replace with the actual ABI of your IdentityNFT contract)
+          // ... (Replace with the actual ABI of your IdentityNFT contract)
           [
             {
               "inputs": [],
@@ -738,9 +756,8 @@ export default {
               "stateMutability": "nonpayable",
               "type": "function"
             }
-          ]
-      ;
-      const identityNFTAddress = "0x22fB7994179a1b4fAeEd82EACb6B8855C564734F";
+          ];
+      const identityNFTAddress = "0x3A910D6C490f42a68F6d2693390fD41e6C90719D";
       this.identityNFTContract = new this.web3.eth.Contract(identityNFTABI, identityNFTAddress);
     } else {
       this.errorMessage = "Ethereum browser extension not detected!";
@@ -757,7 +774,7 @@ export default {
           const username = await this.authContract.methods.getUsername(accounts[0]).call();
           const userInfo = await this.authContract.methods.getUserInfo(username).call();
 
-          if (userInfo[5].toString() === "0") { // Adjusted the index based on the updated contract
+          if (userInfo[5].toString() === "0") {
             this.$router.push("/patienthome");
           } else if (userInfo[5].toString() === "1") {
             this.$router.push("/medical-records-home");
@@ -769,15 +786,27 @@ export default {
           this.errorMessage = "You do not own an NFT. Please register and get approved first.";
         }
       } catch (error) {
+        console.error("Error during login with NFT:", error);
         this.errorMessage = "An error occurred during login with NFT!";
       } finally {
         this.loading = false;
       }
     },
   },
+  // async getIndex(tokenid){
+  //   //ownerOf - call
+  //   const addr = await this.identityNFTContract.methods.ownerOf(tokenid).call()
+  //   console.log('nftowner:',addr)
+  // }
 };
 </script>
 
 <style scoped>
-/* Add your styles here */
+/* You can add your styles here */
+button {
+  font-size: 1.2em; /* Increase the font size of the button */
+}
+h1 {
+  font-size: 2em; /* Increase the font size of the title */
+}
 </style>
